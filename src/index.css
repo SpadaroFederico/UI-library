@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+/* Definizione dei keyframes custom */
+@theme {
+  @keyframes mosquito {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+}
+
+/* Classe custom che usa i keyframes */
+.animate-mosquito {
+  animation: mosquito 0.9s ease-in-out infinite;
+}
