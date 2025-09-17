@@ -14,7 +14,7 @@ export default function App() {
         <Route path="Login" element={<Login/>}/>
 
         {/* pagina Home */}
-        <Route path="Home" element={<Home/>}/>
+        <Route path="/" element={<Home/>}/>
 
         {/* pagine ordini e dashboard */}
         <Route path="Orders" element={<Orders/>}/>
@@ -24,7 +24,7 @@ export default function App() {
         <Route path="Support" element={<Support/>}/>
 
         {/* Pagina NotFound */}
-        <Route path="NotFound" element={<NotFound/>}/>
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
     </BrowserRouter>
   );
