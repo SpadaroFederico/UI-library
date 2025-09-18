@@ -3,23 +3,27 @@ import React from "react";
 /**
  * Button component
  *
- * Un pulsante riutilizzabile con supporto per:
+ * Un pulsante riutilizzabile con:
  * - dimensioni (size)
  * - colori (color)
- * - forme (shape)
  * - stato disabilitato o caricamento
  *
- * Tutti i bottoni condividono lo stesso gradient di base osservando anche l'attuale sito ho pensato che il gradient potrebbe piacere di più,
- * ho cercato di variare per dimensioni informandomi sull'utilizzo di diverse forme per offrire toni diversi a seconda del contesto, 
- * ad esempio più o meno professionale o più "futuristico"
+ * Ho deciso di mantenere solo la variante con bordo tagliato (cut corner)
+ * perché dà un tocco più tech/futuristico e rende i pulsanti unici rispetto
+ * a quelli standard squadrati o arrotondati.
+ *
+ * Per l’hover del pulsante "primary" ho preferito non cambiare direttamente
+ * il gradient (non si anima in modo fluido nei browser), ma fare un crossfade
+ * tra due gradient sovrapposti. In questo modo il passaggio da viola→stone
+ * a viola→verde è molto più morbido e piacevole.
  *
  * Nota: per il caricamento ho inserito due varianti:
- *  - una "creativa" con una zanzara 🦟, pensata richiamando il tema dell'azienda e sfruttando solo emoji 
- *    (dato che non è possibile usare librerie grafiche esterne).
- *  - una "classica" con spinner.
+ *  - una "creativa" con una zanzara 🦟 (per richiamare il tema aziendale e
+ *    usare un tocco simpatico senza librerie esterne).
+ *  - una "classica" con lo spinner.
  */
 
-// varianti di dimensioni
+// Varianti di dimensioni (padding e font size)
 const sizes = {
   sm: "px-3 py-1.5 text-sm",
   md: "px-5 py-2 text-base",
@@ -27,67 +31,79 @@ const sizes = {
 };
 
 // Varianti di colore
+// Nota: per "primary" gestiamo i gradient con i layer, qui serve solo il colore del testo
 const colors = {
-  primary: "from-purple-600 to-cyan-500 text-white",
+  primary: "text-white",
   danger: "from-red-400 to-red-600 text-white",
   success: "from-green-400 to-green-600 text-white",
   warning: "from-yellow-400 to-orange-500 text-black",
 };
 
-// Varianti di forma 
-const shapes = {
-  default: "rounded-none", // squadrato, utilizzato principalmente per dare un tono professionale 
-  rounded: "rounded-md",   // arrotondato leggero, più friendly come soluzione
-  pill: "rounded-full",    // pill shape, playful per alleggerire principalmente
-  skewed: "skew-x-12",     // inclinato, energico ho notato che viene spesso utilizzato per web app il cui punto di forza è il movimento
-  cut: "[clip-path:polygon(0%_0%,calc(100%-12px)_0%,100%_12px,100%_100%,0%_100%)]", // angolo tagliato, prima volta che lo sperimento ma personalmnte mi sembra adatto sopratutto per esprimere concetti avanzamento nelle tecnologia
-};
+// Forma unica scelta: bordo tagliato
+const shapeCut =
+  "[clip-path:polygon(0%_0%,calc(100%-12px)_0%,100%_12px,100%_100%,0%_100%)]";
+
+// Gradient per la variante "primary"
+const primaryBase = "from-purple-700 to-stone-500";   // stato normale: viola→stone
+const primaryHover = "from-purple-700 to-green-500";  // hover: viola→verde
 
 export default function Button({
   children,
   onClick,
   size = "md",
   color = "primary",
-  shape = "default",
   disabled = false,
   loading = false,
-  loadingType = "mosquito", // "mosquito" oppure "spinner"
+  loadingType = "mosquito", // "mosquito" | "spinner"
   className = "",
 }) {
+  const isInteractive = !(disabled || loading);
+
   return (
     <button
+      type="submit"
       onClick={onClick}
-      disabled={disabled || loading}
+      disabled={!isInteractive}
       className={`
-        inline-flex items-center justify-center font-medium 
-        bg-gradient-to-r ${colors[color]} 
-        ${sizes[size]} ${shapes[shape]} 
-        transition-transform duration-200 ease-in-out
+        group relative overflow-hidden inline-flex items-center justify-center font-medium
+        ${sizes[size]} ${shapeCut}
         shadow-md hover:shadow-lg
-        ${disabled || loading ? "opacity-70 cursor-not-allowed" : "hover:scale-[1.02] active:scale-[0.98]"}
+        transition-all duration-300 ease-in-out
+        ${isInteractive ? "hover:scale-[1.02] active:scale-[0.98]" : "opacity-70 cursor-not-allowed"}
+        ${color !== "primary" ? `bg-gradient-to-r ${colors[color]}` : colors[color]}
         ${className}
       `}
     >
-      {/* Loading con zanzara */}
-      {loading && loadingType === "mosquito" && (
-        <span
-          className="mr-2 inline-block animate-mosquito text-2xl opacity-100 transform -scale-x-100"
-          role="img"
-          aria-label="zanzara"
-        >
-          🦟
-        </span>
+      {/* Gestione speciale per "primary" */}
+      {color === "primary" && (
+        <>
+          <span
+            className={`pointer-events-none absolute inset-0 bg-gradient-to-r ${primaryBase} opacity-100 transition-opacity duration-300`}
+          />
+          <span
+            className={`pointer-events-none absolute inset-0 bg-gradient-to-r ${primaryHover} ${
+              isInteractive ? "opacity-0 group-hover:opacity-100" : "opacity-0"
+            } transition-opacity duration-300`}
+          />
+        </>
       )}
 
-      {/* Loading classico con spinner */}
-      {loading && loadingType === "spinner" && (
-        <span
-          className="mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"
-        ></span>
-      )}
+      {/* Contenuto sopra i layer */}
+      <span className="relative z-10 flex items-center">
+        {loading && loadingType === "mosquito" && (
+          <span
+            className="mr-2 inline-block animate-mosquito text-2xl opacity-100 transform -scale-x-100"
+            role="img"
+            aria-label="zanzara"
+          >
+            🦟
+          </span>
+        )}
 
-      {/* Se il pulsante è inclinato, correggo il testo per tenerlo dritto */}
-      <span className={shape === "skewed" ? "-skew-x-12" : ""}>
+        {loading && loadingType === "spinner" && (
+          <span className="mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+        )}
+
         {children}
       </span>
     </button>

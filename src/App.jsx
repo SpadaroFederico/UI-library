@@ -11,20 +11,20 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         {/* Pagina di Login */}
-        <Route path="Login" element={<Login/>}/>
+        <Route path="Login" element={<Login />}/>
 
         {/* pagina Home */}
         <Route path="/" element={<Home/>}/>
 
         {/* pagine ordini e dashboard */}
-        <Route path="Orders" element={<Orders/>}/>
-        <Route path="Dashboard" element={<Dashboard/>}/>
+        <Route path="Orders" element={<Orders />}/>
+        <Route path="Dashboard" element={<Dashboard />}/>
 
         {/* pagina supporto  */}
-        <Route path="Support" element={<Support/>}/>
+        <Route path="Support" element={<Support />}/>
 
         {/* Pagina NotFound */}
-        <Route path="*" element={<NotFound/>}/>
+        <Route path="*" element={<NotFound />}/>
       </Routes>
     </BrowserRouter>
   );
