@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import Login from '../src/pages/Login';
 import Home from '../src/pages/Home';
 import Orders from '../src/pages/Orders';
@@ -8,6 +9,7 @@ import NotFound from '../src/pages/NotFound';
 
 export default function App() {
   return (
+    <AuthProvider>
     <BrowserRouter>
       <Routes>
         {/* Pagina di Login */}
@@ -27,5 +29,6 @@ export default function App() {
         <Route path="*" element={<NotFound />}/>
       </Routes>
     </BrowserRouter>
+    </AuthProvider>
   );
 }

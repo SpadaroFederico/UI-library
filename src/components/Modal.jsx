@@ -1,5 +1,15 @@
 import React from "react";
 
+/**
+ * Modal
+ *
+ * Ho deciso di implementarla con uno sfondo sfumato e blur invece del classico overlay nero,
+ * per rendere l’esperienza meno “pesante” e più elegante.
+ *
+ * Animazioni con scale+opacity rendono la comparsa fluida.
+ * Questo migliora la presentabilità e rende il progetto più vicino a soluzioni reali.
+ */
+
 export default function Modal({ isOpen, onClose, title, children }) {
   if (!isOpen) return null;
 

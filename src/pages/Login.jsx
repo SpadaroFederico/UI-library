@@ -2,22 +2,34 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import { useAuth } from "../context/AuthContext";
 import Modal from "../components/Modal";
-import { users as seedUsers } from "../data/users"; // importo i dati mockati
+
+/**
+ * Login / Register page
+ *
+ * Struttura:
+ * - Card centrale con gradient di sfondo
+ * - Switch dinamico tra modalità "Login" e "Registrazione"
+ * - Validazioni di base (password uguali, email non duplicata)
+ * - Modale di conferma all'operazione riuscita
+ *
+ * Scelte:
+ * - Ho gestito utenti mockati tramite AuthContext, per simulare un flusso realistico.
+ * - Ho aggiunto anche un accesso "ospite" per mostrare flessibilità.
+ * - La modale conferma l’operazione e crea un feedback positivo.
+ */
 
 export default function Login() {
+  const { login, register, loginAsGuest } = useAuth();
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-
-  // Stato locale inizializzato con gli utenti mockati
-  const [users, setUsers] = useState(seedUsers);
 
   const navigate = useNavigate();
 
@@ -25,37 +37,17 @@ export default function Login() {
     e.preventDefault();
     setError("");
 
-    if (isRegistering) {
-      // Registrazione
-      if (password !== confirmPassword) {
-        setError("Le password non coincidono");
-        return;
+    try {
+      if (isRegistering) {
+        register(name, email, password, confirmPassword);
+        setModalMessage("Registrazione completata con successo!");
+      } else {
+        login(email, password);
+        setModalMessage("Login effettuato con successo!");
       }
-
-      const exists = users.find((u) => u.email === email);
-      if (exists) {
-        setError("Email già registrata");
-        return;
-      }
-
-      const newUser = { id: Date.now(), name, email, password };
-      setUsers((prev) => [...prev, newUser]);
-
-      setModalMessage("Registrazione completata con successo!");
       setShowModal(true);
-    } else {
-      // Login
-      const user = users.find(
-        (u) => u.email === email && u.password === password
-      );
-
-      if (!user) {
-        setError("Credenziali non valide");
-        return;
-      }
-
-      setModalMessage(`Bentornato, ${user.name || "utente"}!`);
-      setShowModal(true);
+    } catch (err) {
+      setError(err.message);
     }
   };
 
@@ -135,14 +127,30 @@ export default function Login() {
             </>
           )}
         </p>
+        
+        {/* Link per accedere come ospite */}
+        <p className="text-sm text-gray-500 text-center mt-2">
+          Oppure{" "}
+          <button
+            type="button"
+            onClick={() => {
+              loginAsGuest(); // segna l’utente guest
+              navigate("/"); // vai in Home
+            }}
+            className="text-green-600 hover:underline"
+          >
+            entra come ospite
+          </button>
+        </p>
       </div>
 
-      {/* Modale di conferma */}
+      
+
       <Modal
         isOpen={showModal}
         onClose={() => {
           setShowModal(false);
-          navigate("/"); // redirect dopo chiusura modale
+          navigate("/"); // redirect dopo conferma
         }}
         title="Operazione completata"
       >

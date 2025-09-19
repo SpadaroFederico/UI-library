@@ -16,11 +16,6 @@ import React from "react";
  * il gradient (non si anima in modo fluido nei browser), ma fare un crossfade
  * tra due gradient sovrapposti. In questo modo il passaggio da viola→stone
  * a viola→verde è molto più morbido e piacevole.
- *
- * Nota: per il caricamento ho inserito due varianti:
- *  - una "creativa" con una zanzara 🦟 (per richiamare il tema aziendale e
- *    usare un tocco simpatico senza librerie esterne).
- *  - una "classica" con lo spinner.
  */
 
 // Varianti di dimensioni (padding e font size)
