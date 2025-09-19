@@ -18,7 +18,7 @@ export default function Home() {
       <main className="flex-1 p-8 space-y-12">
         {/* Hero */}
         <section className="text-center">
-          <h2 className="text-3xl font-bold mb-3">Benvenuto nella piattaforma Primed</h2>
+          <h2 className="text-3xl font-bold mb-3">Benvenuto nella piattaforma LibraryUI</h2>
           <p className="text-gray-300 mb-6">
             Qui puoi gestire i tuoi ordini, monitorare i dati e contattare il supporto.
           </p>
@@ -95,7 +95,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="bg-black/30 backdrop-blur-md px-6 py-4 text-center text-gray-400 text-sm">
-        © 2025 Primed. Tutti i diritti riservati.
+        © 2025 LibraryUI.
       </footer>
     </div>
   );
