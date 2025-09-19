@@ -15,85 +15,13 @@
  * calcolare statistiche nella dashboard.
  */
 
+// data/orders.js
+
 export const orders = [
-  {
-    id: 1,
-    cliente: "Mario Rossi",
-    prodotto: "Monitor 27''",
-    quantita: 2,
-    stato: "Completato",
-    data: "2025-09-01",
-  },
-  {
-    id: 2,
-    cliente: "Luca Bianchi",
-    prodotto: "Laptop Pro 15''",
-    quantita: 1,
-    stato: "In corso",
-    data: "2025-09-05",
-  },
-  {
-    id: 3,
-    cliente: "Giulia Verdi",
-    prodotto: "Stampante Laser",
-    quantita: 3,
-    stato: "Spedito",
-    data: "2025-09-07",
-  },
-  {
-    id: 4,
-    cliente: "Federico Neri",
-    prodotto: "Smartphone X",
-    quantita: 1,
-    stato: "Annullato",
-    data: "2025-09-08",
-  },
-  {
-    id: 5,
-    cliente: "Sara Blu",
-    prodotto: "Tablet Mini",
-    quantita: 2,
-    stato: "Completato",
-    data: "2025-09-10",
-  },
-  {
-    id: 6,
-    cliente: "Marco Gialli",
-    prodotto: "Cuffie Wireless",
-    quantita: 5,
-    stato: "Spedito",
-    data: "2025-09-12",
-  },
-  {
-    id: 7,
-    cliente: "Anna Rosa",
-    prodotto: "Mouse Ergonomico",
-    quantita: 4,
-    stato: "In corso",
-    data: "2025-09-14",
-  },
-  {
-    id: 8,
-    cliente: "Paolo Marrone",
-    prodotto: "Tastiera Meccanica",
-    quantita: 1,
-    stato: "Completato",
-    data: "2025-09-15",
-  },
-  {
-    id: 9,
-    cliente: "Chiara Argento",
-    prodotto: "Webcam FullHD",
-    quantita: 2,
-    stato: "In corso",
-    data: "2025-09-16",
-  },
-  {
-    id: 10,
-    cliente: "Davide Nero",
-    prodotto: "SSD 1TB",
-    quantita: 1,
-    stato: "Spedito",
-    data: "2025-09-17",
-  },
+  { id: 1, cliente: "Mario Rossi", stato: "Completato", data: "15/09/2025", prezzo: 120 },
+  { id: 2, cliente: "Anna Bianchi", stato: "In lavorazione", data: "14/09/2025", prezzo: 200 },
+  { id: 3, cliente: "Luca Verdi", stato: "In attesa", data: "13/09/2025", prezzo: 80 },
+  { id: 4, cliente: "Giulia Neri", stato: "Completato", data: "12/09/2025", prezzo: 150 },
+  { id: 5, cliente: "Marco Gialli", stato: "Completato", data: "11/09/2025", prezzo: 300 },
 ];
+
