@@ -1,12 +1,32 @@
-# React + Vite
+# LibraryUI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Una libreria di componenti UI sviluppata con **React**, **Vite** e **TailwindCSS**, pensata per offrire una base solida e riutilizzabile su cui costruire interfacce moderne e consistenti.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Struttura del progetto
 
-## Expanding the ESLint configuration
+- **Autenticazione**: login, registrazione e login come ospite gestiti tramite **Context API**, con feedback tramite modale animata.  
+- **Componenti riutilizzabili**:  
+  - **Button** con varianti di colore, dimensione e caricamento (inclusa una versione creativa 🦟).  
+  - **Input** con validazione e focus gradient.  
+  - **Modal** con transizioni fluide e design non convenzionale.  
+- **Pagine principali**: Login, Home, Ordini, Dashboard e Supporto, collegate tramite **React Router**.  
+- **Navbar fissa**: con logo, navigazione centrale e gestione utente (profilo + login/logout).  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Scelte tecniche
+
+- **Context API** per centralizzare la logica di autenticazione e semplificare la gestione dello stato utente.  
+- **TailwindCSS** per uno stile rapido, consistente e facilmente personalizzabile.  
+- **React Router** per la navigazione tra le sezioni.  
+- **Mock dei dati** per simulare scenari reali (utenti, ordini, statistiche).  
+
+---
+
+## Obiettivo
+
+Realizzare componenti **chiari, ben documentati e versatili**, con un design coerente e facilmente estendibile, mantenendo un equilibrio tra funzionalità e presentazione.  
+
+Realizzare componenti chiari, ben documentati e versatili, con un design coerente e facilmente estendibile, mantenendo un equilibrio tra funzionalità e presentazione.
