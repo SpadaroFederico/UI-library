@@ -7,20 +7,22 @@ import Button from "./Button";
  *
  * Struttura:
  * - Logo a sinistra (LibraryUI → branding semplice e neutro)
- * - Link di navigazione centrali
- * - Profilo + Logout a destra
+ * - Link di navigazione centrali (desktop), compressi in un menu su mobile
+ * - Profilo + Login/Logout a destra
  *
- * Ho scelto di renderla fissa (fixed) e trasparente con blur
- * per dare un look moderno, tipico delle webapp.
+ * Design:
+ * - Fissa (fixed) e trasparente con blur, per un look moderno tipico delle webapp.
+ * - Responsive:
+ *   → Desktop: link centrali ben visibili
+ *   → Mobile: link nascosti, trasformati in menu a tendina
  *
  * Se l’utente è loggato:
  *  - Mostra avatar e pulsante Logout
  * Se non è loggato:
  *  - Mostra pulsante Login
- * 
- * Per seguire la consegna non ho utilizzato librerie esterne come fontawesome,
- * normalmente avrei utilizzato le icone da li.
  *
+ * Per seguire la consegna non ho utilizzato librerie esterne (es. icone),
+ * normalmente avrei usato un set come FontAwesome.
  */
 
 export default function Navbar() {
@@ -43,8 +45,8 @@ export default function Navbar() {
           Library<span className="text-green-500">UI</span>
         </div>
 
-        {/* Link centrali */}
-        <nav className="absolute left-1/2 transform -translate-x-1/2 flex gap-6">
+        {/* Link centrali (desktop) */}
+        <nav className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 gap-6">
           {[
             { label: "Home", path: "/" },
             { label: "Ordini", path: "/orders" },
@@ -89,6 +91,24 @@ export default function Navbar() {
             </Button>
           )}
         </div>
+      </div>
+
+      {/* Mobile menu (sotto la navbar) */}
+      <div className="flex md:hidden justify-center bg-black/40 backdrop-blur-md">
+        {[
+          { label: "Home", path: "/" },
+          { label: "Ordini", path: "/orders" },
+          { label: "Dashboard", path: "/dashboard" },
+          { label: "Supporto", path: "/support" },
+        ].map((link) => (
+          <button
+            key={link.path}
+            onClick={() => navigate(link.path)}
+            className="px-3 py-2 text-sm text-white hover:text-violet-400 transition"
+          >
+            {link.label}
+          </button>
+        ))}
       </div>
     </header>
   );
