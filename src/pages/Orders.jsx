@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { orders } from "../data/orders";
 import NavBar from "../components/NavBar";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Pagina Ordini
@@ -11,6 +12,8 @@ import NavBar from "../components/NavBar";
  * soprattutto quando la lista diventa lunga.
  */
 export default function Orders() {
+  const navigate = useNavigate();
+
   const [search, setSearch] = useState("");
 
   // Filtra gli ordini in base al testo cercato
@@ -57,16 +60,16 @@ export default function Orders() {
                   if (order.stato === "In attesa") color = "bg-violet-500";
 
                   return (
-                    <tr key={order.id} className="border-b border-white/10">
-                      <td className="px-4 py-2">{order.id}</td>
-                      <td className="px-4 py-2">{order.cliente}</td>
-                      <td className="px-4 py-2 flex items-center gap-2">
-                        <span className={`w-3 h-3 rounded-full ${color}`} />
-                        {order.stato}
-                      </td>
-                      <td className="px-4 py-2">{order.data}</td>
-                      <td className="px-4 py-2">€ {order.prezzo}</td>
-                    </tr>
+                    <tr key={order.id} onClick={() => navigate(`/orders/${order.id}`)}  className="border-b border-white/10 hover:bg-white/5 transition cursor-pointer">
+                        <td className="px-4 py-2">{order.id}</td>
+                        <td className="px-4 py-2">{order.cliente}</td>
+                        <td className="px-4 py-2 flex items-center gap-2">
+                          <span className={`w-3 h-3 rounded-full ${color}`} />
+                          {order.stato}
+                        </td>
+                        <td className="px-4 py-2">{order.data}</td>
+                        <td className="px-4 py-2">€ {order.prezzo}</td>
+                      </tr>
                   );
                 })
               ) : (

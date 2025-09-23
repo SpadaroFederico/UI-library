@@ -6,6 +6,7 @@ import Orders from '../src/pages/Orders';
 import Dashboard from '../src/pages/Dashboard';
 import Support from '../src/pages/Support';
 import NotFound from '../src/pages/NotFound';
+import OrderDetail from "./pages/OrderDetail";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
 
         {/* pagine ordini e dashboard */}
         <Route path="Orders" element={<Orders />}/>
+        <Route path="/orders/:id" element={<OrderDetail />} /> 
         <Route path="Dashboard" element={<Dashboard />}/>
 
         {/* pagina supporto  */}

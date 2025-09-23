@@ -129,7 +129,7 @@ export default function Home() {
           <div className="overflow-x-auto bg-white/10 rounded-xl shadow-md">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-white/10">
+                <tr key={orders.id} className="bg-white/10">
                   <th className="px-4 py-2">ID</th>
                   <th className="px-4 py-2">Cliente</th>
                   <th className="px-4 py-2">Stato</th>
@@ -148,7 +148,7 @@ export default function Home() {
                     if (order.stato === "In attesa") color = "bg-violet-500";
 
                     return (
-                      <tr key={order.id} className="border-b border-white/10">
+                      <tr key={order.id} onClick={() => navigate(`/orders/${order.id}`)}  className="border-b border-white/10 hover:bg-white/5 transition cursor-pointer">
                         <td className="px-4 py-2">{order.id}</td>
                         <td className="px-4 py-2">{order.cliente}</td>
                         <td className="px-4 py-2 flex items-center gap-2">
