@@ -1,50 +1,61 @@
 import React from "react";
+import ReactDOM from "react-dom";
 
 /**
  * Modal
  *
- * Ho deciso di implementarla con uno sfondo sfumato e blur invece del classico overlay nero,
- * per rendere l’esperienza meno “pesante” e più elegante.
+ * Versione aggiornata:
+ * - Sfondo più scuro (bg-gray-900) → maggiore leggibilità.
+ * - Testo chiaro (text-gray-100).
+ * - Struttura più vicina a una "dialog box" classica:
+ *   → Titolo in alto
+ *   → Contenuto testuale al centro
+ *   → Azioni allineate in basso a destra
  *
- * Animazioni con scale+opacity rendono la comparsa fluida.
- * Questo migliora la presentabilità e rende il progetto più vicino a soluzioni reali.
+ * Manteniamo React Portal per evitare problemi di posizionamento.
  */
 
 export default function Modal({ isOpen, onClose, title, children }) {
   if (!isOpen) return null;
 
-  return (
+  return ReactDOM.createPortal(
     <div
       className="
         fixed inset-0 z-50 flex items-center justify-center 
-        bg-gradient-to-br from-violet-900/40 to-stone-900/40 
-        backdrop-blur-sm 
-        animate-[overlayIn_0.4s_ease-out]
+        bg-black/60 backdrop-blur-sm
+        animate-[overlayIn_0.3s_ease-out]
       "
     >
       <div
         className="
-          relative bg-white rounded-xl shadow-xl p-6 w-full max-w-md
-          border border-violet-400/30
-          animate-[modalIn_0.5s_ease-out]
+          relative bg-gray-900 text-gray-100 rounded-xl shadow-2xl p-6 w-full max-w-md
+          border border-violet-500/30
+          animate-[modalIn_0.4s_ease-out]
         "
       >
-        {/* Bordo gradient sottile e animato */}
-        <div className="absolute inset-0 rounded-xl p-[2px] bg-gradient-to-r from-violet-500 via-cyan-400 to-green-500 animate-[borderFlow_4s_linear_infinite]">
-          <div className="w-full h-full bg-white rounded-xl"></div>
-        </div>
+        {/* Titolo */}
+        <h2 className="text-lg font-bold mb-4">{title}</h2>
 
-        <div className="relative z-10">
-          <h2 className="text-lg font-bold mb-4">{title}</h2>
-          <div className="mb-6">{children}</div>
+        {/* Contenuto */}
+        <div className="mb-6">{children}</div>
+
+        {/* Azioni (in basso a destra) */}
+        <div className="flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-violet-600 text-white rounded-md hover:bg-violet-700 transition"
+            className="px-4 py-2 rounded-md bg-gray-700 hover:bg-gray-600 transition"
           >
-            Chiudi
+            Annulla
+          </button>
+          <button
+            onClick={onClose}
+            className="px-4 py-2 rounded-md bg-violet-600 hover:bg-violet-700 transition text-white"
+          >
+            Conferma
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

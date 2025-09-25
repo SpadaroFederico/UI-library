@@ -1,33 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Button from "./Button";
+import { useState } from "react";
+import Modal from "./Modal";
 
 /**
  * Navbar
  *
  * Struttura:
- * - Logo a sinistra (LibraryUI → branding semplice e neutro)
- * - Link di navigazione centrali (desktop), compressi in un menu su mobile
+ * - Logo a sinistra
+ * - Link centrali (desktop), compressi in un menu su mobile
  * - Profilo + Login/Logout a destra
  *
- * Design:
- * - Fissa (fixed) e trasparente con blur, per un look moderno tipico delle webapp.
- * - Responsive:
- *   → Desktop: link centrali ben visibili
- *   → Mobile: link nascosti, trasformati in menu a tendina
- *
- * Se l’utente è loggato:
- *  - Mostra avatar e pulsante Logout
- * Se non è loggato:
- *  - Mostra pulsante Login
- *
- * Per seguire la consegna non ho utilizzato librerie esterne (es. icone),
- * normalmente avrei usato un set come FontAwesome.
+ * Modal:
+ * - La conferma di logout ora usa la Modal (con portal).
  */
 
 export default function Navbar() {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -67,7 +59,7 @@ export default function Navbar() {
 
         {/* Profilo + Login/Logout */}
         <div className="flex items-center gap-4">
-          {/* Avatar utente */}
+          {/* Avatar */}
           {currentUser ? (
             <div className="w-9 h-9 rounded-full bg-violet-600 flex items-center justify-center text-white font-semibold">
               {currentUser.name
@@ -80,9 +72,9 @@ export default function Navbar() {
             </div>
           )}
 
-          {/* Se loggato → Logout, altrimenti → Login */}
+          {/* Pulsante */}
           {currentUser ? (
-            <Button size="sm" color="danger" onClick={handleLogout}>
+            <Button size="sm" color="danger" onClick={() => setIsModalOpen(true)}>
               Logout
             </Button>
           ) : (
@@ -93,7 +85,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu (sotto la navbar) */}
+      {/* Mobile menu */}
       <div className="flex md:hidden justify-center bg-black/40 backdrop-blur-md">
         {[
           { label: "Home", path: "/" },
@@ -110,6 +102,14 @@ export default function Navbar() {
           </button>
         ))}
       </div>
+
+      {/* Modal Logout */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Sei sicuro di voler uscire?"
+      >
+      </Modal>
     </header>
   );
 }

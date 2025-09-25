@@ -153,6 +153,8 @@ export default function Login() {
           navigate("/"); // redirect dopo conferma
         }}
         title="Operazione completata"
+        variant="light"
+        offsetTop={false}
       >
         <p>{modalMessage}</p>
       </Modal>
