@@ -1,4 +1,6 @@
 import NavBar from "../components/NavBar";
+import Modal from "../components/Modal";
+import { useState } from "react";
 
 /**
  * Pagina di Supporto
@@ -14,11 +16,28 @@ import NavBar from "../components/NavBar";
  * Ho strutturato la pagina in modo che risulti utile e realistica:
  * - Le FAQ sono divise tra risposte e in attesa
  * - I ticket hanno stato visivo (aperto, in lavorazione, chiuso)
- * - È presente un form per inviare nuove richieste
+ * - È presente un form per inviare nuove richieste con conferma tramite modal
  * - Sidebar arricchita con contatti fittizi
  */
 
 export default function Supporto() {
+  const [showModal, setShowModal] = useState(false);
+
+  // Stati per il form
+  const [oggetto, setOggetto] = useState("");
+  const [descrizione, setDescrizione] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Reset campi
+    setOggetto("");
+    setDescrizione("");
+
+    // Mostra la modal di conferma
+    setShowModal(true);
+  };
+
   const faqs = [
     {
       id: 1,
@@ -27,15 +46,46 @@ export default function Supporto() {
         "Puoi resettarla dalla sezione 'Profilo' cliccando su 'Cambia password'.",
       stato: "risposto",
     },
-    { id: 2, domanda: "Posso modificare o cancellare un ordine?", risposta: null, stato: "in attesa" },
-    { id: 3, domanda: "È possibile avere una fattura personalizzata?", risposta: "Sì, puoi richiederla contattando l'amministrazione tramite email.", stato: "risposto" },
-    { id: 4, domanda: "Come faccio a contattare il supporto clienti?", risposta: null, stato: "in attesa" },
+    {
+      id: 2,
+      domanda: "Posso modificare o cancellare un ordine?",
+      risposta: null,
+      stato: "in attesa",
+    },
+    {
+      id: 3,
+      domanda: "È possibile avere una fattura personalizzata?",
+      risposta:
+        "Sì, puoi richiederla contattando l'amministrazione tramite email.",
+      stato: "risposto",
+    },
+    {
+      id: 4,
+      domanda: "Come faccio a contattare il supporto clienti?",
+      risposta: null,
+      stato: "in attesa",
+    },
   ];
 
   const tickets = [
-    { id: 101, titolo: "Errore nel pagamento con carta", stato: "aperto", data: "20/09/2025" },
-    { id: 102, titolo: "Problema con la fattura elettronica", stato: "in lavorazione", data: "18/09/2025" },
-    { id: 103, titolo: "Richiesta personalizzazione ordine", stato: "chiuso", data: "15/09/2025" },
+    {
+      id: 101,
+      titolo: "Errore nel pagamento con carta",
+      stato: "aperto",
+      data: "20/09/2025",
+    },
+    {
+      id: 102,
+      titolo: "Problema con la fattura elettronica",
+      stato: "in lavorazione",
+      data: "18/09/2025",
+    },
+    {
+      id: 103,
+      titolo: "Richiesta personalizzazione ordine",
+      stato: "chiuso",
+      data: "15/09/2025",
+    },
   ];
 
   return (
@@ -50,13 +100,28 @@ export default function Supporto() {
             <h3 className="text-lg font-bold mb-3">Supporto</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#faq" className="block px-3 py-2 rounded-lg hover:bg-violet-600/40 transition">📚 Domande frequenti</a>
+                <a
+                  href="#faq"
+                  className="block px-3 py-2 rounded-lg hover:bg-violet-600/40 transition"
+                >
+                  📚 Domande frequenti
+                </a>
               </li>
               <li>
-                <a href="#ticket" className="block px-3 py-2 rounded-lg hover:bg-violet-600/40 transition">📨 Ticket aperti</a>
+                <a
+                  href="#ticket"
+                  className="block px-3 py-2 rounded-lg hover:bg-violet-600/40 transition"
+                >
+                  📨 Ticket aperti
+                </a>
               </li>
               <li>
-                <a href="#contatta" className="block px-3 py-2 rounded-lg hover:bg-violet-600/40 transition">✍️ Contatta supporto</a>
+                <a
+                  href="#contatta"
+                  className="block px-3 py-2 rounded-lg hover:bg-violet-600/40 transition"
+                >
+                  ✍️ Contatta supporto
+                </a>
               </li>
             </ul>
           </div>
@@ -76,18 +141,27 @@ export default function Supporto() {
             <h2 className="text-2xl font-bold mb-6">📚 Domande frequenti</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {faqs.map((faq) => (
-                <div key={faq.id} className="bg-white/10 rounded-xl p-6 shadow-md hover:scale-[1.02] transition-transform">
+                <div
+                  key={faq.id}
+                  className="bg-white/10 rounded-xl p-6 shadow-md hover:scale-[1.02] transition-transform"
+                >
                   <h4 className="font-semibold mb-2">{faq.domanda}</h4>
                   {faq.risposta ? (
                     <p className="text-gray-300 text-sm">{faq.risposta}</p>
                   ) : (
-                    <p className="text-gray-500 italic text-sm">Nessuna risposta ancora disponibile.</p>
+                    <p className="text-gray-500 italic text-sm">
+                      Nessuna risposta ancora disponibile.
+                    </p>
                   )}
                   <div className="mt-3">
                     {faq.stato === "risposto" ? (
-                      <span className="inline-block px-3 py-1 text-xs rounded-full bg-green-500/20 text-green-300">✅ Risposto</span>
+                      <span className="inline-block px-3 py-1 text-xs rounded-full bg-green-500/20 text-green-300">
+                        ✅ Risposto
+                      </span>
                     ) : (
-                      <span className="inline-block px-3 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-300">⏳ In attesa</span>
+                      <span className="inline-block px-3 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-300">
+                        ⏳ In attesa
+                      </span>
                     )}
                   </div>
                 </div>
@@ -110,14 +184,29 @@ export default function Supporto() {
                 </thead>
                 <tbody>
                   {tickets.map((t) => (
-                    <tr key={t.id} className="border-b border-white/10 text-sm hover:bg-white/5">
+                    <tr
+                      key={t.id}
+                      className="border-b border-white/10 text-sm hover:bg-white/5"
+                    >
                       <td className="px-4 py-3">{t.id}</td>
                       <td className="px-4 py-3">{t.titolo}</td>
                       <td className="px-4 py-3">{t.data}</td>
                       <td className="px-4 py-3 text-right">
-                        {t.stato === "aperto" && <span className="px-3 py-1 rounded-full bg-red-500/20 text-red-300 text-xs">🔴 Aperto</span>}
-                        {t.stato === "in lavorazione" && <span className="px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-300 text-xs">🟡 In lavorazione</span>}
-                        {t.stato === "chiuso" && <span className="px-3 py-1 rounded-full bg-green-500/20 text-green-300 text-xs">🟢 Chiuso</span>}
+                        {t.stato === "aperto" && (
+                          <span className="px-3 py-1 rounded-full bg-red-500/20 text-red-300 text-xs">
+                            🔴 Aperto
+                          </span>
+                        )}
+                        {t.stato === "in lavorazione" && (
+                          <span className="px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-300 text-xs">
+                            🟡 In lavorazione
+                          </span>
+                        )}
+                        {t.stato === "chiuso" && (
+                          <span className="px-3 py-1 rounded-full bg-green-500/20 text-green-300 text-xs">
+                            🟢 Chiuso
+                          </span>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -129,16 +218,50 @@ export default function Supporto() {
           {/* Form contatto */}
           <section id="contatta">
             <h2 className="text-2xl font-bold mb-6">✍️ Invia una nuova richiesta</h2>
-            <form className="bg-white/10 rounded-xl p-6 shadow-md space-y-4">
-              <input type="text" placeholder="Oggetto della richiesta" className="w-full p-3 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-violet-500" />
-              <textarea placeholder="Descrivi il problema..." rows="4" className="w-full p-3 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-violet-500"></textarea>
-              <button type="submit" className="px-5 py-2 bg-gradient-to-r from-violet-600 to-green-400 rounded-lg font-semibold hover:opacity-90 transition">
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white/10 rounded-xl p-6 shadow-md space-y-4"
+            >
+              <input
+                type="text"
+                placeholder="Oggetto della richiesta"
+                value={oggetto}
+                onChange={(e) => setOggetto(e.target.value)}
+                className="w-full p-3 rounded-lg bg-white/5 border border-white/10 
+                           focus:outline-none focus:ring-2 focus:ring-violet-500"
+                required
+              />
+              <textarea
+                placeholder="Descrivi il problema..."
+                rows="4"
+                value={descrizione}
+                onChange={(e) => setDescrizione(e.target.value)}
+                className="w-full p-3 rounded-lg bg-white/5 border border-white/10 
+                           focus:outline-none focus:ring-2 focus:ring-violet-500"
+                required
+              />
+              <button
+                type="submit"
+                className="px-5 py-2 bg-gradient-to-r from-violet-600 to-green-400 
+                           rounded-lg font-semibold hover:opacity-90 transition"
+              >
                 Invia
               </button>
             </form>
           </section>
         </div>
       </main>
+
+      {/* Modal di conferma */}
+      <Modal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        title="Richiesta inviata"
+      >
+        <p className="text-white">
+          La tua richiesta è stata registrata. Ti ricontatteremo entro 24 ore.
+        </p>
+      </Modal>
     </div>
   );
 }
